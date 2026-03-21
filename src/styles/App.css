@@ -1,0 +1,16 @@
+.create-btn {
+  padding: 8px 12px;
+  margin: 10px 0;
+  border: 1px solid #0f766e;
+  border-radius: 8px;
+  background-color: #cfe7e7;
+  color: #0f766e;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #0f766e;
+  color: #ffffff;
+}

@@ -1,0 +1,43 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.layout__sidebar {
+  width: 240px;
+  padding: 24px 16px;
+  border-right: 1px solid #d1d5db;
+  background-color: #f8fafc;
+}
+
+.layout__content {
+  flex: 1;
+  padding: 24px;
+}
+
+.layout__main {
+  margin-top: 24px;
+}
+
+@media (max-width: 1024px) {
+  .layout__sidebar {
+    width: 200px;
+  }
+  .layout__content {
+    padding: 14px;
+  }
+  .layout__main {
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+  .layout__sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #d1d5db;
+  }
+}
