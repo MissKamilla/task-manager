@@ -37,6 +37,13 @@ const priorityOptions: PriorityOption[] = [
   { value: TASK_PRIORITY.HIGH, label: 'High' },
 ];
 
+const DEFAULT_TASK_FORM_VALUES: TaskFormValues = {
+  title: '',
+  description: '',
+  status: TASK_STATUS.BACKLOG,
+  priority: TASK_PRIORITY.MEDIUM,
+  assigneeId: '',
+};
 export function TaskForm({
   mode,
   users,
@@ -49,13 +56,7 @@ export function TaskForm({
   };
 
   const [formValues, setFormValues] = useState<TaskFormValues>(
-    initialValues || {
-      title: '',
-      description: '',
-      status: TASK_STATUS.BACKLOG,
-      priority: TASK_PRIORITY.MEDIUM,
-      assigneeId: '',
-    },
+    initialValues || DEFAULT_TASK_FORM_VALUES,
   );
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
