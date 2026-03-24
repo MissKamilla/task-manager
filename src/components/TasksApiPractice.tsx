@@ -6,6 +6,7 @@ import {
 } from '@/shared/api/tasksApi';
 import type { GetTasksResponse } from '@/shared/api/types';
 import { TASK_PRIORITY, TASK_STATUS } from '@/shared/constants/task';
+import { anyFailure, anySuccess } from '@/shared/lib/promisePractice';
 import type { TaskFormValues } from '@/types/entities';
 import { useEffect, /*useRef,*/ useState } from 'react';
 
@@ -89,6 +90,39 @@ export function TasksApiPractice() {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={async () => {
+          console.time('success');
+
+          try {
+            const data = await anySuccess();
+            console.log('data', data);
+          } catch (error) {
+            console.log(error);
+          }
+
+          console.timeEnd('success');
+        }}
+      >
+        Run Promise.any success
+      </button>
+      <button
+        type="button"
+        onClick={async () => {
+          console.time('failure');
+          try {
+            const data = await anyFailure();
+            console.log('data', data);
+          } catch (error) {
+            console.log(error);
+          }
+          console.timeEnd('failure');
+        }}
+      >
+        Run Promise.any failure
+      </button>
+
       <button type="button" onClick={() => handleLoadTasks('fast', 200)}>
         Load tasks
       </button>
