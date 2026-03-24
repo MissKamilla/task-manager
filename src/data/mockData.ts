@@ -59,7 +59,7 @@ export const tasks: Task[] = [
     id: 'task-4',
     title: 'Prepare responsive styles',
     description: 'Prepare responsive styles',
-    status: 'done',
+    status: TASK_STATUS.DONE,
     assigneeId: 'user-1',
     projectId: 'project-1',
     priority: TASK_PRIORITY.HIGH,
