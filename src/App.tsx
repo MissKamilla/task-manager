@@ -9,10 +9,6 @@ import { useEffect, useState } from 'react';
 import type { FilterStatus, Task, TaskFormValues } from '@/types/entities';
 import { Modal } from '@/components/Modal';
 import { TASK_SORT, type TaskSort } from './shared/constants/task';
-import {
-  ProjectFormPractice,
-  type Project,
-} from './components/ProjectFormPractice';
 
 const TASKS_STORAGE_KEY = 'task-manager-tasks';
 
@@ -105,14 +101,9 @@ function App() {
     localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(taskList));
   }, [taskList]);
 
-  const handleSaveProject = (projectValues: Project) => {
-    console.log(projectValues);
-  };
-
   return (
     <>
       <Layout>
-        <ProjectFormPractice onCreate={handleSaveProject} />
         <FilterPanel
           searchQuery={searchQuery}
           onSearchQueryChange={setSearchQuery}

@@ -6,24 +6,11 @@ import type {
   UpdateTaskRequest,
 } from '@/shared/api/types';
 
-type SomeMode = 'success' | 'empty' | 'error';
-const tempState: SomeMode = 'success';
-// const tempState:SomeMode  = 'empty';
-// const tempState: SomeMode = 'error';
-
 let tasksDb = [...tasks];
 
-export async function getTasks(ms?: number): Promise<GetTasksResponse> {
-  await delay(ms);
-
-  switch (tempState) {
-    case 'success':
-      return tasksDb;
-    case 'empty':
-      return [];
-    case 'error':
-      throw new Error(`getTasks error`);
-  }
+export async function getTasks(): Promise<GetTasksResponse> {
+  await delay();
+  return tasksDb;
 }
 
 export async function createTask(data: CreateTaskRequest): Promise<Task> {
@@ -39,7 +26,6 @@ export async function updateTask(
   data: UpdateTaskRequest,
 ): Promise<Task> {
   await delay();
-
   const foundTask = tasksDb.find((task) => task.id === id);
 
   if (!foundTask) {
