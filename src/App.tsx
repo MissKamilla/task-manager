@@ -17,7 +17,7 @@ import {
 } from './shared/api/tasksApi';
 
 function App() {
-  const [taskList, setTaskList] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [isTasksLoading, setIsTasksLoading] = useState<boolean>(false);
   const [isTaskSubmitting, setIsTaskSubmitting] = useState<boolean>(false);
@@ -37,24 +37,26 @@ function App() {
     return fallbackMessage;
   };
 
-  async function loadTasks() {
+  async function fetchTasks() {
     setTasksError('');
     setIsTasksLoading(true);
     try {
-      const tasks = await getTasks();
-      setTaskList(tasks);
+      const taskList = await getTasks();
+      setTasks(taskList);
     } catch (error) {
-      setTasksError(getErrorMessage(error, 'Something wrong with getTasks'));
+      setTasksError(
+        getErrorMessage(error, 'Something went wrong while loading tasks'),
+      );
     } finally {
       setIsTasksLoading(false);
     }
   }
   useEffect(() => {
-    loadTasks();
+    fetchTasks();
   }, []);
 
   const normalizedSearchQuery = searchQuery.trim().toLowerCase();
-  const filteredTasks = taskList
+  const visibleTasks = tasks
     .filter((task) => {
       const matchesStatus =
         selectedStatus === 'all' || task.status === selectedStatus;
@@ -79,42 +81,45 @@ function App() {
     });
 
   const handleCreateTask = async (formValues: TaskFormValues) => {
-    setTasksError('');
     if (isTaskSubmitting) return;
+    setTasksError('');
     setIsTaskSubmitting(true);
 
     try {
       await createTask(formValues);
-      await loadTasks();
+      await fetchTasks();
 
       setIsCreateModalOpen(false);
     } catch (error) {
-      setTasksError(getErrorMessage(error, 'Something wrong with create task'));
+      setTasksError(
+        getErrorMessage(error, 'Something went wrong while creating the task'),
+      );
     } finally {
       setIsTaskSubmitting(false);
     }
   };
 
   const handleEditTask = async (formValues: TaskFormValues) => {
-    if (editingTask) {
-      if (isTaskSubmitting) return;
-      setIsTaskSubmitting(true);
+    if (!editingTask) return;
+    if (isTaskSubmitting) return;
+    setTasksError('');
+    setIsTaskSubmitting(true);
 
-      setTasksError('');
-      try {
-        await updateTask(editingTask.id, formValues);
-        await loadTasks();
+    try {
+      await updateTask(editingTask.id, formValues);
+      await fetchTasks();
 
-        setEditingTask(null);
-      } catch (error) {
-        setTasksError(getErrorMessage(error, 'Something wrong with edit task'));
-      } finally {
-        setIsTaskSubmitting(false);
-      }
+      setEditingTask(null);
+    } catch (error) {
+      setTasksError(
+        getErrorMessage(error, 'Something went wrong while updating the task'),
+      );
+    } finally {
+      setIsTaskSubmitting(false);
     }
   };
 
-  const handleStartEdit = (task: Task) => {
+  const handleEditClick = (task: Task) => {
     setEditingTask(task);
   };
 
@@ -122,9 +127,11 @@ function App() {
     setTasksError('');
     try {
       await deleteTask(taskId);
-      await loadTasks();
+      await fetchTasks();
     } catch (error) {
-      setTasksError(getErrorMessage(error, 'Something wrong with delete'));
+      setTasksError(
+        getErrorMessage(error, 'Something went wrong while deleting the task'),
+      );
     }
   };
 
@@ -180,18 +187,18 @@ function App() {
         ) : tasksError !== '' ? (
           <>
             <p>{tasksError}</p>
-            <button type="button" onClick={loadTasks} className="create-btn">
+            <button type="button" onClick={fetchTasks} className="create-btn">
               Retry
             </button>
           </>
-        ) : taskList.length === 0 ? (
-          <p>No tasks yet</p>
-        ) : filteredTasks.length === 0 ? (
-          <p>Nothing found</p>
+        ) : tasks.length === 0 ? (
+          <p>No tasks yet. Create your first task.</p>
+        ) : visibleTasks.length === 0 ? (
+          <p>No tasks match your search or filters.</p>
         ) : (
           <TaskList
-            tasks={filteredTasks}
-            onEditTask={handleStartEdit}
+            tasks={visibleTasks}
+            onEditTask={handleEditClick}
             onDeleteTask={handleDeleteTask}
           />
         )}
