@@ -62,3 +62,7 @@ textarea.task-form__control {
 .task-form__submit:hover {
   background-color: #0d9488;
 }
+
+.task-form__submit:disabled {
+  background-color: #9e9e9e;
+}

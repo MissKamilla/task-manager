@@ -10,9 +10,10 @@ import type { TaskFormValues, User } from '@/types/entities';
 import { useState } from 'react';
 
 interface TaskFormProps {
-  mode: string;
+  mode: 'create' | 'edit';
   users: User[];
-  onSaveTask: (formData: TaskFormValues) => void;
+  onSaveTask: (formData: TaskFormValues) => void | Promise<void>;
+  isSubmitting: boolean;
   initialValues?: TaskFormValues | null;
 }
 
@@ -48,6 +49,7 @@ export function TaskForm({
   mode,
   users,
   onSaveTask,
+  isSubmitting,
   initialValues,
 }: TaskFormProps) {
   const uiText = {
@@ -178,7 +180,11 @@ export function TaskForm({
           </select>
         </div>
 
-        <button type="submit" className="task-form__submit">
+        <button
+          type="submit"
+          className="task-form__submit"
+          disabled={isSubmitting}
+        >
           {uiText.submit}
         </button>
       </form>

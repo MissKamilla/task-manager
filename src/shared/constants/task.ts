@@ -1,3 +1,5 @@
+export const TASKS_STORAGE_KEY = 'task-manager-tasks';
+
 export const TASK_SORT = {
   DEFAULT: 'default',
   TITLE_ASC: 'title-asc',
