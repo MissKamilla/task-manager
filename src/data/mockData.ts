@@ -5,12 +5,27 @@ export const users: User[] = [
   {
     id: 'user-1',
     name: 'Anna Petrova',
-    email: 'anna@example.com',
+    email: 'petrova@example.com',
   },
   {
     id: 'user-2',
     name: 'Ivan Kozak',
-    email: 'ivan@example.com',
+    email: 'kozak@example.com',
+  },
+  {
+    id: 'user-3',
+    name: 'Maru Will',
+    email: 'will@example.com',
+  },
+  {
+    id: 'user-4',
+    name: 'Alex Bez',
+    email: 'bex@example.com',
+  },
+  {
+    id: 'user-5',
+    name: 'Michel Smith',
+    email: 'smith@example.com',
   },
 ];
 

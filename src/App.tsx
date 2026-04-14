@@ -15,6 +15,7 @@ import {
   getTasks,
   updateTask,
 } from './shared/api/tasksApi';
+import UsersPanel from '@/components/UsersPanel';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -138,6 +139,8 @@ function App() {
   return (
     <>
       <Layout>
+        <UsersPanel />
+
         <FilterPanel
           searchQuery={searchQuery}
           onSearchQueryChange={setSearchQuery}
